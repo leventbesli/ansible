@@ -22,10 +22,10 @@
       name: ansible
       groups: root
 
-  - name: add ssh key for simone
+  - name: add ssh key for ansible user
     tags: always
     authorized_key:
-      user: simone
+      user: ansibe
       key: "ssh-ed25519 ********************************************** ansible"
 
   - name: add sudoers file for ansible user
