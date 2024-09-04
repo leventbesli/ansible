@@ -1,0 +1,39 @@
+---
+
+- hosts: all
+  become: true
+  pre_tasks:
+
+
+  - name: install updates (Ubuntu)
+    tags: always
+    apt:
+      upgrade: dist
+      update_cache: yes
+    when: ansible_distribution == "Ubuntu"
+
+- hosts: all
+  become: true
+  tasks:
+
+  - name: create ansible user
+    tags: always
+    user:
+      name: ansible
+      groups: root
+
+  - name: add ssh key for simone
+    tags: always
+    authorized_key:
+      user: simone
+      key: "ssh-ed25519 ********************************************** ansible"
+
+  - name: add sudoers file for ansible user
+    tags: always
+    copy:
+      src: sudoer_ansible
+      dest: /etc/sudoers.d/ansible
+      owner: root
+      group: root
+      mode: 0440
+
