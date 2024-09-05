@@ -25,7 +25,7 @@
   - name: add ssh key for ansible user
     tags: always
     authorized_key:
-      user: ansibe
+      user: ansible
       key: "ssh-ed25519 ********************************************** ansible"
 
   - name: add sudoers file for ansible user

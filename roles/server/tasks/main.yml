@@ -3,20 +3,28 @@
   apt:
     name: 
       - fail2ban
+      - btop
       - iotop
       - apt-transport-https
       - ca-certificates
       - curl
-      - software-properties-common
-      
+      - software-properties-common      
     state: latest
   when: ansible_distribution == "Ubuntu"
   
-- name: add Docker GPG key
-  apt_key:
+- name: Create directory for Docker GPG keyring
+  file:
+    path: /etc/apt/keyrings
+    state: directory
+    mode: '0755'
+  
+  
+- name: Download Docker's official GPG key
+  get_url:
     url: https://download.docker.com/linux/ubuntu/gpg
-    state: present
-      
+    dest: /etc/apt/keyrings/docker.asc
+    mode: '0644'
+
 - name: get ubuntu version
   command: "lsb_release -cs"
   register: ubuntu_version
@@ -28,13 +36,13 @@
 
 - name: install Docker
   apt:
-  name:
+    name:
     - docker-ce
     - docker-ce-cli
     - containerd.io
     - docker-compose-plugin
     - docker-buildx-plugin
-  update_cache: yes
+    state: latest
   
 - name: add user permissions
   shell: "usermod -aG docker {{ ansible_env.SUDO_USER }}"

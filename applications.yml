@@ -13,7 +13,7 @@
     when: ansible_distribution == "Ubuntu"
 
 
- hosts: all
+- hosts: all
   become: true
   roles:
     - base
@@ -21,4 +21,4 @@
 - hosts: ubuntu_servers
   become: true
   roles:
-    - server
+    - server 
